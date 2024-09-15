@@ -1,0 +1,6 @@
+build:
+  version: "1.0"
+
+logging:
+  level:
+    root: INFO

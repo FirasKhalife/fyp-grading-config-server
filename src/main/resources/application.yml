@@ -1,0 +1,38 @@
+logging:
+  level:
+    root: INFO
+
+spring:
+  application:
+    name: "config-server"
+
+# native mode (stored in file system - activate 'native' profile)
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations:
+#            # for absolute path: file:///C://...
+#            - classpath:/config/admin-service
+#            - classpath:/config/evaluation-service
+#            - classpath:/config/notification-service
+#            - classpath:/config/rubric-service
+
+# git mode (stored in git repo - activate 'git' profile)
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_REPO_URI}
+          default-label: ${GIT_BRANCH}
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+          search-paths:
+            - admin-service
+            - evaluation-service
+            - notification-service
+            - rubric-service
+
+server:
+  port: ${PORT}

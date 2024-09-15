@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ConfigServerApp" type="Application" factoryName="Application">
+    <envs>
+      <env name="SPRING_PROFILES_ACTIVE" value="git,dev" />
+      <env name="GIT_REPO_URI" value="https://github.com/FirasKhalife/fyp-grading-config.git" />
+      <env name="GIT_BRANCH" value="cloud-course" />
+      <env name="PORT" value="8071" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.fypgrading.configserver.ConfigServerApplication" />
+    <module name="config-server" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
