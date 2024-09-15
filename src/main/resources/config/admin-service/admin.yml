@@ -1,5 +1,5 @@
 build:
-  version: "1.0"
+  version: 1.0
 
 logging:
   level:
@@ -15,24 +15,24 @@ spring:
     retry-max-count: 3
 
     notification:
-      queue: "notification-queue"
-      exchange: "notification-exchange"
-      routing-key: "notification-key"
+      queue: notification-queue
+      exchange: notification-exchange
+      routing-key: notification-key
     retry-notification:
-      queue: "retry-notification-queue"
-      exchange: "retry-notification-exchange"
-      routing-key: "retry-notification-key"
+      queue: retry-notification-queue
+      exchange: retry-notification-exchange
+      routing-key: retry-notification-key
 
     check-notification:
-      queue: "check-notification-queue"
-      exchange: "check-notification-exchange"
-      routing-key: "check-notification-key"
+      queue: check-notification-queue
+      exchange: check-notification-exchange
+      routing-key: check-notification-key
     retry-check-notification:
-      queue: "retry-check-notification-queue"
-      exchange: "retry-check-notification-exchange"
-      routing-key: "retry-check-notification-key"
+      queue: retry-check-notification-queue
+      exchange: retry-check-notification-exchange
+      routing-key: retry-check-notification-key
 
     dead-letter:
-      queue: "dead-queue"
-      exchange: "dead-exchange"
-      routing-key: "dead-key"
+      queue: dead-queue
+      exchange: dead-exchange
+      routing-key: dead-key
