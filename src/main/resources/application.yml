@@ -34,5 +34,30 @@ spring:
             - notification-service
             - rubric-service
 
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+# expose /actuator endpoints over HTTP
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  # /actuator/health
+  # /actuator/health/liveness
+  # /actuator/health/readiness
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+
 server:
   port: ${PORT}
