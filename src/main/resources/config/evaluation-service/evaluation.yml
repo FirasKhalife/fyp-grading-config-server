@@ -1,6 +1,8 @@
 build:
   version: 1.0
 
-logging:
-  level:
-    root: INFO
+info:
+  app:
+    name: "evaluation"
+    description: "FYP Grading project - Evaluation Microservice"
+    version: "1.0"

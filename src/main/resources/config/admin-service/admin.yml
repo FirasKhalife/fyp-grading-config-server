@@ -1,9 +1,11 @@
 build:
   version: 1.0
 
-logging:
-  level:
-    root: INFO
+info:
+  app:
+    name: "admin"
+    description: "FYP Grading project - Admin Microservice"
+    version: "1.0"
 
 spring:
   rabbitmq:

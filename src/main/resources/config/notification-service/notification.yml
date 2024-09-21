@@ -1,26 +1,28 @@
 build:
-    version: 1.0
+  version: 1.0
 
-logging:
-    level:
-        root: INFO
+info:
+  app:
+    name: "notification"
+    description: "FYP Grading project - Notification Microservice"
+    version: "1.0"
 
 spring:
-    rabbitmq:
-        retry-queues-ttl: 2000
-        retry-max-count: 3
+  rabbitmq:
+    retry-queues-ttl: 2000
+    retry-max-count: 3
 
-        notification:
-            queue: notification-queue
-            exchange: notification-exchange
-            routing-key: notification-key
+    notification:
+      queue: notification-queue
+      exchange: notification-exchange
+      routing-key: notification-key
 
-        retry-notification:
-            queue: retry-notification-queue
-            exchange: retry-notification-exchange
-            routing-key: retry-notification-key
+    retry-notification:
+      queue: retry-notification-queue
+      exchange: retry-notification-exchange
+      routing-key: retry-notification-key
 
-        dead-letter:
-            queue: dead-queue
-            exchange: dead-exchange
-            routing-key: dead-key
+    dead-letter:
+      queue: dead-queue
+      exchange: dead-exchange
+      routing-key: dead-key

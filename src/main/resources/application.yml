@@ -4,7 +4,7 @@ logging:
 
 spring:
   application:
-    name: "config-server"
+    name: "config"
 
 # native mode (stored in file system - activate 'native' profile)
 #  cloud:
@@ -33,6 +33,7 @@ spring:
             - evaluation-service
             - notification-service
             - rubric-service
+            - registry-server
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
@@ -40,24 +41,37 @@ spring:
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
 
-# expose /actuator endpoints over HTTP
 management:
+  # exposes /actuator endpoints over HTTP
   endpoints:
     web:
       exposure:
         include: '*'
-  # /actuator/health
-  # /actuator/health/liveness
-  # /actuator/health/readiness
+  info:
+    # includes environment-specific info in /actuator/info
+    env:
+      enabled: true
   endpoint:
     health:
       probes:
         enabled: true
+    # /actuator/shutdown to shut down gracefully (TO BE SECURED)
+    shutdown:
+      enabled: true
+  # /actuator/health
   health:
+    # /actuator/health/readiness
     readinessstate:
       enabled: true
+    # /actuator/health/liveness
     livenessstate:
       enabled: true
+
+info:
+  app:
+    name: "config"
+    description: "FYP Grading project - Configuration Server"
+    version: "1.0"
 
 server:
   port: ${PORT}
