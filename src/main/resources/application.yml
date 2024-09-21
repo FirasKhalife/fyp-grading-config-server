@@ -2,9 +2,21 @@ logging:
   level:
     root: INFO
 
+# config server will be reached via eureka
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: ${REGISTRY_SERVER_URL}
+    healthcheck:
+      enabled: true
+
 spring:
   application:
-    name: "config"
+    name: ${SPRING_APPLICATION_NAME}
 
 # native mode (stored in file system - activate 'native' profile)
 #  cloud:
@@ -33,7 +45,7 @@ spring:
             - evaluation-service
             - notification-service
             - rubric-service
-            - registry-server
+            - api-gateway
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
@@ -42,36 +54,30 @@ spring:
     password: ${RABBITMQ_PASSWORD}
 
 management:
-  # exposes /actuator endpoints over HTTP
   endpoints:
     web:
-      exposure:
+      exposure: # exposes /actuator endpoints over HTTP
         include: '*'
   info:
-    # includes environment-specific info in /actuator/info
     env:
-      enabled: true
+      enabled: true # includes environment-specific info in /actuator/info
   endpoint:
     health:
       probes:
         enabled: true
-    # /actuator/shutdown to shut down gracefully (TO BE SECURED)
     shutdown:
+      enabled: true # /actuator/shutdown to shut down gracefully (TO BE SECURED)
+  health: # /actuator/health
+    readinessstate: # /actuator/health/readiness
       enabled: true
-  # /actuator/health
-  health:
-    # /actuator/health/readiness
-    readinessstate:
-      enabled: true
-    # /actuator/health/liveness
-    livenessstate:
+    livenessstate: # /actuator/health/liveness
       enabled: true
 
 info:
   app:
-    name: "config"
+    name: ${SPRING_APPLICATION_NAME}
     description: "FYP Grading project - Configuration Server"
-    version: "1.0"
+    version: ${BUILD_VERSION}
 
 server:
   port: ${PORT}
