@@ -2,6 +2,12 @@ logging:
   level:
     root: INFO
 
+info:
+  app:
+    name: ${SPRING_APPLICATION_NAME}
+    description: "FYP Grading project - Configuration Server"
+    version: ${BUILD_VERSION}
+
 # config server will be reached via eureka
 eureka:
   instance:
@@ -72,12 +78,9 @@ management:
       enabled: true
     livenessstate: # /actuator/health/liveness
       enabled: true
-
-info:
-  app:
-    name: ${SPRING_APPLICATION_NAME}
-    description: "FYP Grading project - Configuration Server"
-    version: ${BUILD_VERSION}
+  metrics:
+    tags:
+      application: ${SPRING_APPLICATION_NAME}
 
 server:
   port: ${PORT}
