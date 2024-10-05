@@ -1,0 +1,8 @@
+build:
+  version: 1.0
+
+info:
+  app:
+    name: "evaluation"
+    description: "FYP Grading project - Evaluation Microservice"
+    version: "1.0"

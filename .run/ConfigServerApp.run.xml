@@ -1,0 +1,22 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ConfigServerApp" type="Application" factoryName="Application">
+    <envs>
+      <env name="REGISTRY_SERVER_URL" value="http://localhost:8761/eureka/" />
+      <env name="GIT_REPO_URI" value="https://github.com/FirasKhalife/fyp-grading-config.git" />
+      <env name="GIT_BRANCH" value="cloud-course" />
+      <env name="RABBITMQ_HOST" value="localhost" />
+      <env name="RABBITMQ_PORT" value="5672" />
+      <env name="RABBITMQ_USERNAME" value="admin" />
+      <env name="RABBITMQ_PASSWORD" value="admin" />
+      <env name="SPRING_APPLICATION_NAME" value="config-server" />
+      <env name="SPRING_PROFILES_ACTIVE" value="git,dev" />
+      <env name="BUILD_VERSION" value="1.0" />
+      <env name="PORT" value="8071" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.fypgrading.configserver.ConfigServerApplication" />
+    <module name="config-server" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

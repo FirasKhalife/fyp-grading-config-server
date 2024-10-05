@@ -1,0 +1,8 @@
+build:
+  version: 1.0
+
+info:
+  app:
+    name: "rubric"
+    description: "FYP Grading project - Rubric Microservice"
+    version: "1.0"

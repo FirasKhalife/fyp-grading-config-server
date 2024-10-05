@@ -1,0 +1,88 @@
+logging:
+  level:
+    root: INFO
+
+info:
+  app:
+    name: ${SPRING_APPLICATION_NAME}
+    description: "FYP Grading project - Configuration Server"
+    version: ${BUILD_VERSION}
+
+# config server will be reached via eureka
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: ${REGISTRY_SERVER_URL}
+    healthcheck:
+      enabled: true
+
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME}
+
+# native mode (stored in file system - activate 'native' profile)
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations:
+#            # for absolute path: file:///C://...
+#            - classpath:/config/admin-service
+#            - classpath:/config/evaluation-service
+#            - classpath:/config/notification-service
+#            - classpath:/config/rubric-service
+
+# git mode (stored in git repo - activate 'git' profile)
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_REPO_URI}
+          default-label: ${GIT_BRANCH}
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+          search-paths:
+            - admin-service
+            - evaluation-service
+            - notification-service
+            - rubric-service
+            - api-gateway
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+management:
+  endpoints:
+    web:
+      exposure: # exposes /actuator endpoints over HTTP
+        include: '*'
+  info:
+    env:
+      enabled: true # includes environment-specific info in /actuator/info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+    shutdown:
+      enabled: true # /actuator/shutdown to shut down gracefully (TO BE SECURED)
+  health: # /actuator/health
+    readinessstate: # /actuator/health/readiness
+      enabled: true
+    livenessstate: # /actuator/health/liveness
+      enabled: true
+  metrics:
+    tags:
+      application: ${SPRING_APPLICATION_NAME}
+
+server:
+  port: ${PORT}
