@@ -1,88 +1,54 @@
-logging:
-  level:
-    root: INFO
-
-info:
-  app:
-    name: ${SPRING_APPLICATION_NAME}
-    description: "FYP Grading project - Configuration Server"
-    version: ${BUILD_VERSION}
-
-# config server will be reached via eureka
-eureka:
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 30
-    lease-expiration-duration-in-seconds: 90
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      default-zone: ${REGISTRY_SERVER_URL}
-    healthcheck:
-      enabled: true
-
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME}
-
-# native mode (stored in file system - activate 'native' profile)
-#  cloud:
-#    config:
-#      server:
-#        native:
-#          search-locations:
-#            # for absolute path: file:///C://...
-#            - classpath:/config/admin-service
-#            - classpath:/config/evaluation-service
-#            - classpath:/config/notification-service
-#            - classpath:/config/rubric-service
-
-# git mode (stored in git repo - activate 'git' profile)
+    name: config-server
+  profiles:
+    # git: read the fyp-grading-config repository (GIT_REPO_URI, GIT_BRANCH).
+    # native: read a mounted folder (CONFIG_DIR), handy for local runs of an unpushed branch.
+    default: git
   cloud:
     config:
       server:
+        # Config lives under /config so /{application}/{profile} can never shadow /actuator/**.
+        prefix: /config
         git:
-          uri: ${GIT_REPO_URI}
-          default-label: ${GIT_BRANCH}
+          uri: ${GIT_REPO_URI:https://github.com/FirasKhalife/fyp-grading-config.git}
+          default-label: ${GIT_BRANCH:main}
           timeout: 5
           clone-on-start: true
           force-pull: true
-          search-paths:
-            - admin-service
-            - evaluation-service
-            - notification-service
-            - rubric-service
-            - api-gateway
+          search-paths: '{application}'
+        native:
+          search-locations: file:${CONFIG_DIR:/config}/, file:${CONFIG_DIR:/config}/{application}/
 
-  rabbitmq:
-    host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USERNAME}
-    password: ${RABBITMQ_PASSWORD}
+server:
+  port: ${PORT:8071}
+  shutdown: graceful
 
+eureka:
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_SERVER_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      configPath: /config   # tells config clients (found through Eureka) where the prefix is
+
+# The config server is only on the internal network (the gateway doesn't route it), and only these are exposed.
 management:
   endpoints:
     web:
-      exposure: # exposes /actuator endpoints over HTTP
-        include: '*'
-  info:
-    env:
-      enabled: true # includes environment-specific info in /actuator/info
+      exposure:
+        include: health,info,prometheus
   endpoint:
     health:
       probes:
         enabled: true
-    shutdown:
-      enabled: true # /actuator/shutdown to shut down gracefully (TO BE SECURED)
-  health: # /actuator/health
-    readinessstate: # /actuator/health/readiness
-      enabled: true
-    livenessstate: # /actuator/health/liveness
-      enabled: true
   metrics:
     tags:
-      application: ${SPRING_APPLICATION_NAME}
+      application: ${spring.application.name}
 
-server:
-  port: ${PORT}
+info:
+  app:
+    name: ${spring.application.name}
+    description: "Assay config server"
+    version: ${BUILD_VERSION:dev}
